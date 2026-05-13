@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Каталог кроссовок | Модели и размеры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f7fb;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #ffffff;
+            padding: 1.8rem 2rem 1.2rem 2rem;
+            border-bottom: 1px solid #e9eef3;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e293b, #2d3a4f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            color: #5b6e8c;
+            margin-top: 6px;
+            font-size: 0.9rem;
+        }
+
+        .filter-bar {
+            padding: 1.2rem 2rem;
+            background: #fafcff;
+            border-bottom: 1px solid #eef2f8;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #2c3e66;
+            background: #eef2fa;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: #f1f4f9;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: #2c3e66;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .filter-btn.active {
+            background: #1e293b;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .reset-filter {
+            background: transparent;
+            border: 1px solid #cdd9ed;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4b6b8f;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .reset-filter:hover {
+            background: #eef2fa;
+            border-color: #a0bbd8;
+        }
+
+        .stats {
+            font-size: 0.8rem;
+            color: #4f7092;
+            margin-left: auto;
+            background: #eef2fa;
+            padding: 4px 12px;
+            border-radius: 40px;
+        }
+
+        .catalog {
+            padding: 1rem 1.5rem 2rem 1.5rem;
+        }
+
+        .model-card {
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .model-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 1rem 0.8rem;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        .model-title:hover {
+            background: #f8fafd;
+            padding-left: 1rem;
+        }
+
+        .model-name {
+            color: #0f2b3d;
+        }
+
+        .toggle-icon {
+            font-size: 1.3rem;
+            color: #86a2c5;
+        }
+
+        .model-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out;
+            background: #fefefe;
+            margin: 0 0.2rem 0.8rem 0.2rem;
+            border-radius: 24px;
+        }
+
+        .model-details.open {
+            max-height: 1200px;
+            transition: max-height 0.45s ease-in-out;
+        }
+
+        .details-inner {
+            padding: 0.2rem 1rem 1.2rem 1.8rem;
+            border-left: 3px solid #dce5f0;
+            margin-left: 0.6rem;
+        }
+
+        .sku-block {
+            margin-bottom: 1rem;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 0.8rem 1rem;
+            border: 1px solid #eff3f9;
+        }
+
+        .sku-code {
+            font-weight: 600;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.85rem;
+            color: #2563eb;
+            background: #eef4ff;
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .sku-code:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .sku-sizes {
+            font-size: 0.9rem;
+            color: #334155;
+            margin-top: 6px;
+        }
+
+        .size-badge {
+            display: inline-block;
+            background: #eef2ff;
+            padding: 3px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0 5px 5px 0;
+            color: #1e40af;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #fafcff;
+            border-radius: 40px;
+            color: #6c86a3;
+        }
+
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 1rem;
+            color: #8ca3c2;
+            border-top: 1px solid #ecf2f9;
+        }
+
+        @media (max-width: 640px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats {
+                margin-left: 0;
+                text-align: center;
+            }
+            .model-title {
+                font-size: 1rem;
+                padding: 0.8rem 0.4rem;
+            }
+            .details-inner {
+                padding-left: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>⚡ Кроссовки • Каталог моделей</h1>
+        <p>Нажмите на название модели → артикулы и размеры. Нажмите на артикул → поиск модели в интернете.</p>
+    </div>
+    <div class="filter-bar">
+        <span class="filter-label">📏 Фильтр по размеру:</span>
+        <div class="filter-buttons" id="sizeFilterContainer"></div>
+        <button class="reset-filter" id="resetFiltersBtn">✖ Сбросить всё</button>
+        <div class="stats" id="statsInfo">Показано моделей: --</div>
+    </div>
+    <div class="catalog" id="catalogContainer">
+        <div class="empty-state">Загрузка данных...</div>
+    </div>
+    <footer>🔍 Артикул кликабелен — ведёт на поиск Google (можно заменить на любой сайт).</footer>
+</div>
+
+<script>
+    // ===================== НАСТРОЙКИ ССЫЛОК =====================
+    // Измените эту переменную, если хотите другой поисковик или магазин:
+    // %s - подставится название модели + артикул
+    const SEARCH_URL = "https://www.google.com/search?tbm=isch&q=";
+    // Примеры других вариантов (раскомментируйте нужный):
+    // const SEARCH_URL = "https://www.wildberries.ru/catalog/0/search.aspx?search=";
+    // const SEARCH_URL = "https://www.ozon.ru/search/?text=";
+    // const SEARCH_URL = "https://www.lamoda.ru/search/?q=";
+    // const SEARCH_URL = "https://www.nike.com/search/?q=";
+    // ============================================================
+
+    const rawData = [
+        { name: "AERO BLAZE", skus: [{ article: "L47382000", sizes: ["13 US"] }, { article: "L47209100", sizes: ["12 US"] }] },
+        { name: "AERO GLIDE", skus: [{ article: "L47279800", sizes: ["12 US", "13 US", "14 US"] }] },
+        { name: "AIR FORCE 1 '07 LV8 1", skus: [{ article: "IB6388-003", sizes: ["12.5 US", "13 US"] }] },
+        { name: "AIR FORCE 1 '07 MID FRESH", skus: [{ article: "DZ2525-100", sizes: ["12 US"] }] },
+        { name: "AIR FORCE 1 '07", skus: [{ article: "CT2302-002", sizes: ["12 US", "12.5 US"] }] },
+        { name: "AIR MAX ALPHA TRAINER 5", skus: [{ article: "DM0829-013", sizes: ["12 US", "12.5 US", "13 US"] }] },
+        { name: "AIR MAX ALPHA TRAINER 6", skus: [{ article: "FQ1833-003", sizes: ["12 US", "12.5 US"] }, { article: "FQ1833-001", sizes: ["12 US", "13 US"] }] },
+        { name: "AIR MAX SC", skus: [{ article: "CW4555-003", sizes: ["12 US", "12.5 US"] }] },
+        { name: "AIR MAX SYSTM", skus: [{ article: "DM9537-001", sizes: ["12.5 US"] }] },
+        { name: "AIR ZOOM PEGASUS 40", skus: [{ article: "DV3853-001", sizes: ["12.5 US"] }] },
+        { name: "AIR ZOOM STRUCTURE 25", skus: [{ article: "DJ7883-002", sizes: ["12.5 US"] }] },
+        { name: "ALBECK NYLON MID", skus: [{ article: "136370-74", sizes: ["12 US"] }] },
+        { name: "ALPHARESPONSE", skus: [{ article: "IE6342", sizes: ["12 US"] }] },
+        { name: "ANZARUN LITE BOLD", skus: [{ article: "37236204", sizes: ["13 US"] }, { article: "37236201", sizes: ["12 US"] }] },
+        { name: "ANZARUN LITE", skus: [{ article: "37112801", sizes: ["12 US", "13 US", "14 US"] }] },
+        { name: "ATLANTA 5 SLIPON", skus: [{ article: "137171-99", sizes: ["12.5 US", "13 US"] }] },
+        { name: "AUTHENTIC RUN LT M", skus: [{ article: "122813-99", sizes: ["12 US"] }] },
+        { name: "AUTHENTIC RUN TXT", skus: [{ article: "133415-99", sizes: ["12 US"] }] },
+        { name: "BLAZER MID '77 SD", skus: [{ article: "FJ4827-100", sizes: ["12 US"] }] },
+        { name: "BOATSIDE™ RELAXED PFG", skus: [{ article: "2063071-271", sizes: ["12 US", "13 US"] }, { article: "2063071-028", sizes: ["12 US"] }] },
+        { name: "BREAKNET 2.0", skus: [{ article: "HP9426", sizes: ["12 US", "12.5 US"] }] },
+        { name: "CAMPFIRE CHAKKA MID M", skus: [{ article: "4059921-5719", sizes: ["12 US", "12.5 US"] }, { article: "4059921-4341", sizes: ["12 US", "12.5 US", "13 US"] }, { article: "4059921-6350", sizes: ["13 US"] }] },
+        { name: "CAVEN 2.0", skus: [{ article: "39229003", sizes: ["12 US", "13 US"] }] },
+        { name: "CAVEN III PLUS", skus: [{ article: "40449004", sizes: ["13 US", "14 US"] }] },
+        { name: "CELL SOLAR", skus: [{ article: "31117504", sizes: ["12 US"] }] },
+        { name: "CHROME PUFF", skus: [{ article: "133731-99", sizes: ["12 US"] }] },
+        { name: "CLUB 3.0 MID WTR", skus: [{ article: "IH0163", sizes: ["13 US", "14 US"] }] },
+        { name: "CLUB FC", skus: [{ article: "38638702", sizes: ["13 US"] }] },
+        { name: "CLUB II ERA SUEDE", skus: [{ article: "40071710", sizes: ["12 US"] }] },
+        { name: "CLUB II YEAR OF SPORTS", skus: [{ article: "39744601", sizes: ["12 US"] }] },
+        { name: "CLUB KAYZER OG", skus: [{ article: "40260409", sizes: ["12 US"] }] },
+        { name: "COURT 24", skus: [{ article: "ID1254", sizes: ["12 US"] }] },
+        { name: "COURT CLASSIC", skus: [{ article: "39501818", sizes: ["12 US"] }] },
+        { name: "DOWNSHIFTER 14", skus: [{ article: "IB1895-102", sizes: ["12 US"] }, { article: "IB1895-100", sizes: ["12 US"] }] },
+        { name: "DRAINMAKER™ XTR", skus: [{ article: "2063431-081", sizes: ["12 US"] }, { article: "2063431-383", sizes: ["12 US", "13 US"] }, { article: "2063431-013", sizes: ["13 US", "14 US"] }] },
+        { name: "DROMOVENTURE TEXAPORE MID M", skus: [{ article: "4059661-4341", sizes: ["12 US", "14 US"] }] },
+        { name: "EASY HIKER LOW", skus: [{ article: "122644-99", sizes: ["12 US"] }] },
+        { name: "EASY HIKER MID", skus: [{ article: "122640-91", sizes: ["12 US"] }] },
+        { name: "ELECTRIFY NITRO 4", skus: [{ article: "31078917", sizes: ["12 US"] }] },
+        { name: "ESCAPE M", skus: [{ article: "128998-FU", sizes: ["12 US", "12.5 US", "13 US"] }] },
+        { name: "EXCEED EXT", skus: [{ article: "122546-5A", sizes: ["12 US"] }] },
+        { name: "FACET™ 75 OUTDRY", skus: [{ article: "2099721-278", sizes: ["12 US"] }] },
+        { name: "FAIRBANKS OH", skus: [{ article: "1746011-014", sizes: ["12 US"] }] },
+        { name: "FAIRBANKS™ MID", skus: [{ article: "2100881-054", sizes: ["13 US"] }, { article: "2100881-313", sizes: ["12 US"] }, { article: "2100881-010", sizes: ["13 US"] }] },
+        { name: "FAIRBANKS™ OMNI-HEAT™", skus: [{ article: "2100831-054", sizes: ["12 US"] }, { article: "2100831-439", sizes: ["12 US"] }] },
+        { name: "FELS NYLON LOW", skus: [{ article: "116260-BH", sizes: ["12 US", "13 US", "14 US"] }] },
+        { name: "FIRECAMP FLEECE III", skus: [{ article: "1865011-357", sizes: ["12 US", "15 US"] }, { article: "1865011-010", sizes: ["12 US", "13 US", "14 US"] }] },
+        { name: "FIRECAMP™ BOOT", skus: [{ article: "1672881-397", sizes: ["12 US", "13 US"] }, { article: "2099741-397", sizes: ["12 US", "13 US"] }, { article: "1672881-087", sizes: ["14 US"] }, { article: "1672881-012", sizes: ["13 US"] }, { article: "2099741-012", sizes: ["12 US", "13 US", "14 US", "15 US"] }] },
+        { name: "FIRECAMP™ III WP", skus: [{ article: "2099751-011", sizes: ["15 US"] }, { article: "2099751-010", sizes: ["13 US", "15 US"] }] },
+        { name: "G.T. JUMP ACADEMY", skus: [{ article: "FV5524-004", sizes: ["12 US"] }] },
+        { name: "GALAXY 7 M", skus: [{ article: "JQ2626", sizes: ["12 US", "13 US"] }, { article: "JQ2623", sizes: ["12.5 US"] }] },
+        { name: "GAMECOURT 2.0", skus: [{ article: "IG9567", sizes: ["12 US"] }] },
+        { name: "GIUSTO MID WNTR", skus: [{ article: "130323-BA", sizes: ["12 US", "13 US"] }] },
+        { name: "GIUSTO", skus: [{ article: "132166-G4", sizes: ["12 US"] }] },
+        { name: "HANDBALL SPEZIAL", skus: [{ article: "IF1960", sizes: ["12 US", "12.5 US", "13 US"] }] },
+        { name: "HOOPS 3.0 MID WTR", skus: [{ article: "GW6421", sizes: ["12.5 US", "14 US"] }, { article: "IG7928", sizes: ["12.5 US", "13 US", "14 US"] }, { article: "IG7927", sizes: ["14 US"] }] },
+        { name: "INVADER HI 4.0", skus: [{ article: "130087-99", sizes: ["12 US"] }] },
+        { name: "JORDAN SESSION", skus: [{ article: "IB3731-203", sizes: ["12 US", "12.5 US"] }, { article: "IB3731-301", sizes: ["12 US", "12.5 US"] }] },
+        { name: "JORDAN TRUNNER O/S", skus: [{ article: "IB3722-102", sizes: ["12 US", "12.5 US"] }] },
+        { name: "JUNIPER TRAIL 3", skus: [{ article: "FQ0904-401", sizes: ["12 US", "13 US"] }, { article: "FQ0904-001", sizes: ["12 US", "12.5 US", "13 US"] }, { article: "FQ0904-006", sizes: ["12 US", "12.5 US" ] }] },
+        { name: "LANDROAMER™ TRAILRIDER", skus: [{ article: "2079061-010", sizes: ["12 US"] }] },
+        { name: "MAGNETIC SL", skus: [{ article: "31243303", sizes: ["12 US", "13 US"] }] },
+        { name: "MAGUS TR 2", skus: [{ article: "143496-99", sizes: ["12 US", "12.5 US", "13 US"] }] },
+        { name: "NIKE AIR PEGASUS WAVE STYLE", skus: [{ article: "IB2916-100", sizes: ["12.5 US"] }] },
+        { name: "NIKE QUEST 6", skus: [{ article: "FD6033-200", sizes: ["12 US"] }] },
+        { name: "NIKE REVOLUTION 8 WIDE", skus: [{ article: "HQ1996-004", sizes: ["12 US", "12.5 US", "13 US", "14 US", "15 US"] }] },
+        { name: "NIKE SB FC CLASSIC", skus: [{ article: "909096-003", sizes: ["12 US"] }] },
+        { name: "NIKE UPLIFT SC", skus: [{ article: "IB2765-001", sizes: ["12 US", "12.5 US", "14 US", "15 US"] }, { article: "IB2765-009", sizes: ["12 US", "12.5 US", "13 US", "14 US"] }] },
+        { name: "NIKE V5 RNR", skus: [{ article: "HJ5228-004", sizes: ["12 US"] }] },
+        { name: "NIKE INITIATOR", skus: [{ article: "394055-101", sizes: ["12 US", "12.5 US"] }, { article: "394055-100", sizes: ["12.5 US", "13 US", "14 US"] }, { article: "394055-001", sizes: ["12 US", "12.5 US", "13 US"] }] },
+        { name: "ONE STAR ACADEMY PRO", skus: [{ article: "A06424C", sizes: ["11.5 US"] }] },
+        { name: "P-6000 FADE", skus: [{ article: "IH4465-095", sizes: ["12.5 US"] }] },
+        { name: "P-6000", skus: [{ article: "CD6404-107", sizes: ["12 US"] }, { article: "FN7509-029", sizes: ["12 US", "12.5 US"] }, { article: "CD6404-002", sizes: ["12 US", "12.5 US"] }] },
+        { name: "P-6000 2TONE", skus: [{ article: "IO8711-101", sizes: ["12 US"] }] },
+        { name: "P-6000 STYLE", skus: [{ article: "IB2986-003", sizes: ["12 US", "12.5 US"] }] },
+        { name: "PRELIGHT HYBRID VENT LOW M", skus: [{ article: "A64081-6350", sizes: ["12 US", "12.5 US"] }] },
+        { name: "PULSAR TRAIL", skus: [{ article: "L41602900", sizes: ["13 US", "14 US"] }] },
+        { name: "PUMA CLUB II ERA SUEDE", skus: [{ article: "40071710", sizes: ["12 US"] }] },
+        { name: "PUMA CLUB KAYZER OG", skus: [{ article: "40260409", sizes: ["12 US"] }] },
+        { name: "PUMA-180 TEXTURE", skus: [{ article: "39731303", sizes: ["12 US"] }] },
+        { name: "R71", skus: [{ article: "IH1321", sizes: ["12 US"] }] },
+        { name: "R78 TREK LTH", skus: [{ article: "38320203", sizes: ["12 US"] }] },
+        { name: "RAPIDMOVE GO TRAINE", skus: [{ article: "JQ3952", sizes: ["12 US", "12.5 US"] }] },
+        { name: "RBD GAME SD", skus: [{ article: "39755103", sizes: ["12 US"] }] },
+        { name: "REVOLUTION 7", skus: [{ article: "FB8501-002", sizes: ["13 US", "14 US"] }] },
+        { name: "REVOLUTION 8", skus: [{ article: "HJ9198-402", sizes: ["12 US"] }] },
+        { name: "RIVAL TRAINER", skus: [{ article: "09078-998-M", sizes: ["12 US"] }] },
+        { name: "RIVOLTE CNVS", skus: [{ article: "133331-91", sizes: ["12 US", "13 US"] }] },
+        { name: "ROBUSTA", skus: [{ article: "126753-99", sizes: ["13 US"] }] },
+        { name: "RS-X HERITAGE", skus: [{ article: "39821010", sizes: ["12 US"] }] },
+        { name: "RS-X SPLATTERS", skus: [{ article: "40285502", sizes: ["12 US"] }] },
+        { name: "RUN 70s 2.0", skus: [{ article: "IH8584", sizes: ["12.5 US"] }, { article: "IH8585", sizes: ["12 US", "13 US"] }, { article: "IG1182", sizes: ["12.5 US"] }] },
+        { name: "S/LAB PULSAR 2 SG", skus: [{ article: "L47170900", sizes: ["14 US"] }] },
+        { name: "S/LAB PULSAR 2", skus: [{ article: "L47220100", sizes: ["12.5 US"] }] },
+        { name: "SCEND PRO 2", skus: [{ article: "31077907", sizes: ["12 US"] }] },
+        { name: "SCUDERIA FERRARI CAVEN 2.0", skus: [{ article: "30815902", sizes: ["12 US"] }] },
+        { name: "SHUFFLE DOWNTOWN OG", skus: [{ article: "40384005", sizes: ["12 US"] }] },
+        { name: "SMASH 3.0", skus: [{ article: "39098426", sizes: ["12 US"] }] },
+        { name: "SPEEDCAT OG", skus: [{ article: "39884601", sizes: ["12 US"] }] },
+        { name: "SPRINTER VERSE", skus: [{ article: "122426-99", sizes: ["12 US", "13 US"] }] },
+        { name: "ST RUNNER V4 L", skus: [{ article: "39906813", sizes: ["12 US"] }, { article: "39906808", sizes: ["12 US"] }, { article: "39906809", sizes: ["12 US", "13 US", "14 US"] }] },
+        { name: "ST RUNNER V4 MID", skus: [{ article: "40289301", sizes: ["12 US", "13 US", "14 US"] }] },
+        { name: "ST RUNNER V4 SD", skus: [{ article: "39966506", sizes: ["12 US"] }] },
+        { name: "STREETTALK", skus: [{ article: "JP8275", sizes: ["12 US", "12.5 US", "13 US"] }, { article: "JP8278", sizes: ["12 US", "12.5 US", "13 US", "14 US"] }] },
+        { name: "STRUTTER", skus: [{ article: "ID3072", sizes: ["12.5 US"] }] },
+        { name: "TERRASTRIDE™ ARO", skus: [{ article: "2115301-100", sizes: ["14 US"] }, { article: "2115301-125", sizes: ["12 US", "13 US", "14 US"] }, { article: "2115301-063", sizes: ["12 US"] }, { article: "2115301-010", sizes: ["12 US", "13 US", "14 US"] }] },
+        { name: "TERRAVENTURE URBAN MID M", skus: [{ article: "4053561-1169", sizes: ["13 US", "14 US"] }] },
+        { name: "TERREX UNITY LEA MID CLD.RDY", skus: [{ article: "IF4988", sizes: ["12.5 US"] }] },
+        { name: "TORNADO MID NXT WNTR", skus: [{ article: "117910-99", sizes: ["12 US"] }] },
+        { name: "V5 RNR SUEDE", skus: [{ article: "II6292-006", sizes: ["12 US"] }] },
+        { name: "VANCOUVER SLIP ON", skus: [{ article: "136365-93", sizes: ["12 US", "13 US"] }] },
+        { name: "VANCOUVER", skus: [{ article: "123170-91", sizes: ["12 US"] }, { article: "123170-99", sizes: ["12 US"] }] },
+        { name: "VARION II", skus: [{ article: "10734108", sizes: ["12 US"] }] },
+        { name: "VL COURT 3.0", skus: [{ article: "ID6285", sizes: ["12 US", "12.5 US", "13 US"] }, { article: "JP7536", sizes: ["12 US", "12.5 US", "13 US"] }, { article: "JP5296", sizes: ["12.5 US"] }, { article: "ID6286", sizes: ["12 US", "12.5 US"] }] },
+        { name: "VOLTAIC EVO NUBUCK", skus: [{ article: "31171601", sizes: ["12 US", "13 US"] }] },
+        { name: "VOLTAIC EVO PREMIUM", skus: [{ article: "31197301", sizes: ["13 US"] }] },
+        { name: "VOYAGER FLX", skus: [{ article: "2109391-010", sizes: ["12 US"] }] },
+        { name: "WOODLAND 2 TEXAPORE MID M", skus: [{ article: "4051261-5076", sizes: ["12 US"] }] },
+        { name: "X-RAY 2 SQUARE", skus: [{ article: "37310850", sizes: ["12 US"] }] },
+        { name: "X-RAY 3 SD", skus: [{ article: "39966804", sizes: ["12 US", "13 US"] }] },
+        { name: "ZOOM FLY 5", skus: [{ article: "DM8968-001", sizes: ["12.5 US"] }] },
+    ];
+
+    const FILTER_SIZES = ["12 US", "12.5 US", "13 US", "14 US", "14.5 US", "15 US"];
+    let activeSizes = new Set();
+    let openModelIndex = null;
+
+    function encodeSearchQuery(modelName, article) {
+        // Формируем поисковый запрос: "модель артикул"
+        const query = `${modelName} ${article}`;
+        return SEARCH_URL + encodeURIComponent(query);
+    }
+
+    function getFilteredModels() {
+        if (activeSizes.size === 0) {
+            return rawData.map(model => ({ ...model, skus: [...model.skus] }));
+        }
+        return rawData.map(model => {
+            const filteredSkus = model.skus.filter(sku => sku.sizes.some(sz => activeSizes.has(sz)));
+            if (filteredSkus.length === 0) return null;
+            return { ...model, skus: filteredSkus };
+        }).filter(m => m !== null);
+    }
+    
+    function renderCatalog() {
+        const filteredModels = getFilteredModels();
+        const container = document.getElementById('catalogContainer');
+        const statsSpan = document.getElementById('statsInfo');
+        statsSpan.innerText = `Показано моделей: ${filteredModels.length}`;
+        
+        if (filteredModels.length === 0) {
+            container.innerHTML = `<div class="empty-state">😕 Нет моделей с выбранными размерами. Попробуйте изменить фильтр.</div>`;
+            openModelIndex = null;
+            return;
+        }
+        
+        let html = '';
+        filteredModels.forEach((model, idx) => {
+            const isOpen = (openModelIndex === idx);
+            let skusHtml = '';
+            for (let sku of model.skus) {
+                const sizeBadges = sku.sizes.map(s => `<span class="size-badge">${s}</span>`).join('');
+                const searchLink = encodeSearchQuery(model.name, sku.article);
+                skusHtml += `
+                    <div class="sku-block">
+                        <a href="${searchLink}" target="_blank" class="sku-code" title="Найти в интернете">🔗 ${sku.article}</a>
+                        <div class="sku-sizes">${sizeBadges}</div>
+                    </div>
+                `;
+            }
+            const detailsClass = isOpen ? 'model-details open' : 'model-details';
+            html += `
+                <div class="model-card" data-model-index="${idx}">
+                    <div class="model-title" data-idx="${idx}">
+                        <span class="model-name">👟 ${model.name}</span>
+                        <span class="toggle-icon">${isOpen ? '▲' : '▼'}</span>
+                    </div>
+                    <div class="${detailsClass}">
+                        <div class="details-inner">
+                            ${skusHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        
+        document.querySelectorAll('.model-title').forEach(el => {
+            el.addEventListener('click', (e) => {
+                // Если клик был именно по заголовку (не по ссылке внутри)
+                const idxAttr = el.getAttribute('data-idx');
+                if (idxAttr === null) return;
+                const clickedIdx = parseInt(idxAttr, 10);
+                if (openModelIndex === clickedIdx) {
+                    openModelIndex = null;
+                } else {
+                    openModelIndex = clickedIdx;
+                }
+                renderCatalog();
+            });
+        });
+    }
+    
+    function initFilters() {
+        const container = document.getElementById('sizeFilterContainer');
+        FILTER_SIZES.forEach(size => {
+            const btn = document.createElement('button');
+            btn.classList.add('filter-btn');
+            btn.textContent = size;
+            btn.dataset.size = size;
+            btn.addEventListener('click', () => {
+                if (activeSizes.has(size)) {
+                    activeSizes.delete(size);
+                    btn.classList.remove('active');
+                } else {
+                    activeSizes.add(size);
+                    btn.classList.add('active');
+                }
+                openModelIndex = null;
+                renderCatalog();
+            });
+            container.appendChild(btn);
+        });
+        document.getElementById('resetFiltersBtn').addEventListener('click', () => {
+            activeSizes.clear();
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            openModelIndex = null;
+            renderCatalog();
+        });
+    }
+    
+    initFilters();
+    renderCatalog();
+</script>
+</body>
+</html>
